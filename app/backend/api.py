@@ -6,26 +6,20 @@ from app.config.settings import settings
 from app.common.logger import get_logger
 from app.common.custom_exception import CustomException
 
-
-
 logger = get_logger(__name__)
 
 app = FastAPI(title="MULTI AI AGENT")
 
-
 class RequestState(BaseModel):
-    model_name: str
-    system_prompt: str
-    messages: List[str]
+    model_name:str
+    system_prompt:str
+    messages:List[str]
     allow_search: bool
-    
-    
-@app.post("/chat")
 
-def chat_endpoint(request: RequestState):
-    
+@app.post("/chat")
+def chat_endpoint(request:RequestState):
     logger.info(f"Received request for model : {request.model_name}")
-    
+
     if request.model_name not in settings.ALLOWED_MODEL_NAMES:
         logger.warning("Invalid model name")
         raise HTTPException(status_code=400 , detail="Invalid model name")
@@ -36,9 +30,10 @@ def chat_endpoint(request: RequestState):
             request.messages,
             request.allow_search,
             request.system_prompt
-            )
-        
+        )
+
         logger.info(f"Sucesfully got response from AI Agent {request.model_name}")
+
         return {"response" : response}
     
     except Exception as e:

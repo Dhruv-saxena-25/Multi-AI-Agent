@@ -2,8 +2,8 @@ import subprocess
 import threading
 import time
 from dotenv import load_dotenv
-from common.logger import get_logger
-from common.custom_exception import CustomException
+from app.common.logger import get_logger
+from app.common.custom_exception import CustomException
 
 logger=get_logger(__name__)
 
